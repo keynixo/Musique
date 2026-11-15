@@ -1,12 +1,11 @@
 name: Build MusicBox Xbox
 
-on:
+"on":
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-2022
-
     steps:
       - name: Recuperer le projet
         uses: actions/checkout@v4
@@ -28,3 +27,5 @@ jobs:
             MusicBox/AppPackages/**
             MusicBox/bin/**
           if-no-files-found: warn
+
+          
