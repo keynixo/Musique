@@ -1,1 +1,30 @@
+name: Build MusicBox Xbox
 
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Recuperer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Compiler MusicBox
+        shell: pwsh
+        run: |
+          msbuild MusicBox/MusicBox.csproj /restore /p:Configuration=Debug /p:Platform=x64 /p:AppxPackage=true /p:AppxPackageSigningEnabled=false
+
+      - name: Recuperer les fichiers generes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MusicBox-Xbox
+          path: |
+            MusicBox/AppPackages/**
+            MusicBox/bin/**
+          if-no-files-found: warn
